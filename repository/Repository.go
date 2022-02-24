@@ -263,7 +263,8 @@ func (repository *GormRepository) Get(uow *UnitOfWork, out interface{}, id uuid.
 	for _, association := range preloadAssociations {
 		db = db.Preload(association)
 	}
-	if err := db.First(out, "id = ?", id).Error; err != nil {
+	fmt.Println("***********************", id)
+	if err := db.Debug().First(out, "id = ?", id).Error; err != nil {
 		return microappError.NewDatabaseError(err)
 	}
 	return nil
