@@ -280,6 +280,7 @@ func (app *App) MigrateDB() {
 
 	logger.Debug().Msg("DB Migration Begin...")
 	fsrc, err := (&file.File{}).Open("file://migrations")
+	fmt.Println("{{{{{{{{{{{{{{{{", fsrc)
 	if err != nil {
 		logger.Info().Err(err).Msg("No migrations directory found, skipping migrations!")
 		logger.Info().Msg("DB Migration End!")
@@ -297,6 +298,7 @@ func (app *App) MigrateDB() {
 	if err != nil {
 		logger.Fatal().Err(err).Msg("Unable to initialize DB instance for migration, exiting the application!")
 	}
+	fmt.Println(":____", m)
 	err = m.Up()
 	if err != nil {
 		if err.Error() == "no change" {
@@ -433,7 +435,7 @@ func (app *App) initializeMemcache() error {
 	memcachedHost := app.Config.GetString(config.EvSuffixForMemCachedHost)
 	memcachedPort := app.Config.GetString(config.EvSuffixForMemCachedPort)
 
-	app.log.Debug().Msgf("connecting to %s\n",net.JoinHostPort(memcachedHost, memcachedPort))
+	app.log.Debug().Msgf("connecting to %s\n", net.JoinHostPort(memcachedHost, memcachedPort))
 
 	memcachedClient := memcache.New(net.JoinHostPort(memcachedHost, memcachedPort))
 	if memcachedClient == nil {
